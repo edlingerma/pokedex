@@ -1,12 +1,24 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Header from './containers/Header'
+import Router from './containers/Router'
+import Detail from './containers/Detail'
+import List from './containers/List'
+import Footer from './containers/Footer'
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <Header />
+      <Router />
+      {/* <List /> */}
+      {/* <Detail /> */}
+      <Footer />
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
+        <h1>Hello world</h1>
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
@@ -18,7 +30,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
     </div>
   );
 }
