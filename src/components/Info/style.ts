@@ -7,6 +7,9 @@ export const InfoDiv = withTheme(styled.div`
     justify-content: space-evenly;
     align-items: center;
     margin-bottom: 20px;
+    @media screen and (max-width: 768px) {
+        flex-direction: column;
+    }
 `)
 
 export const StyledAvatar = withTheme(styled(Avatar)`
@@ -16,6 +19,9 @@ export const StyledAvatar = withTheme(styled(Avatar)`
 
 export const StyledTableContainer = withTheme(styled(TableContainer)`
     max-width: 50%;
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+    }
 `)
 
 

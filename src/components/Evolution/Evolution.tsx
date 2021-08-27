@@ -1,7 +1,9 @@
 import React, { memo } from 'react'
 
 import Card from '../Card'
+import { useTheme, useMediaQuery } from '@material-ui/core'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 import { EvolutionContainer } from './style'
 
 type evolutionProps = {
@@ -15,6 +17,9 @@ const Evolution = (props: evolutionProps) => {
     const {evolutionArr} = props
     const evolutionArrLen = evolutionArr.length
 
+    const theme = useTheme()
+    const isLaptop = useMediaQuery(theme.breakpoints.between('md', 'xl'))
+
     return (
         <EvolutionContainer>
         {evolutionArr.map((species, i) => {
@@ -26,7 +31,10 @@ const Evolution = (props: evolutionProps) => {
                 return (
                     <>
                         <Card name={species.name} picture={species.picture} />
-                        <ArrowRightAltIcon style={{ height: '50px', width: '50px' }} />
+                        {isLaptop ? 
+                            <ArrowRightAltIcon style={{ height: '50px', width: '50px' }} /> :
+                            <ArrowDownwardIcon style={{ height: '50px', width: '50px' }} />
+                        }
                     </>
                 )
             }
