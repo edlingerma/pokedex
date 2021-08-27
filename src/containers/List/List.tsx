@@ -1,47 +1,49 @@
 import React, { memo, useState, useEffect  } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 
-// import { HeaderDiv } from './style'
-import { Button, IconButton } from '@material-ui/core'
+import { CardContainer, ListContainer, StyledPagination } from './style'
 
-
-import { fetchPokemon, fetchAllPokemon } from '../../utils/pokemonData'
-
+import Card from '../../components/Card'
+import { fetchAllPokemon } from '../../utils/pokemonData'
 
 const List = () => {
 
-    const [allPokemons, setAllPokemons] = useState([{name: '', url: ''}])
+    const [allPokemons, setAllPokemons] = useState([{name: '', picture: ''}])
+    const [numberOfPokemons, setNumberOfPokemons] = useState(200)
+    const [page, setPage] = useState(1)
 
     useEffect(() => {
         const fetchData = async () => {
-            const pokemons = await fetchAllPokemon()
-            setAllPokemons(pokemons)
-            console.log('allPokemons')
-            console.log(allPokemons)
+            const { ok, pokemonData, count} = await fetchAllPokemon((page-1)*20)
+            if(ok && pokemonData){
+                // const { results, count} = await fetchAllPokemon((page-1)*20)
+                // setAllPokemons(results)
+                setAllPokemons(pokemonData)
+                if(count) setNumberOfPokemons(count)
+            }
         }
         fetchData()
-    }, [])
+    }, [page])
+
+    const changePage = (value: number) => {
+        setPage(value)
+    }
 
     return (
-    <>
-        <h1>Liste</h1>
-        <button 
-            onClick={async () => {
-                fetchPokemon(1)
-        }}> Click me </button> 
-
-        {allPokemons?.map((pokemon: {name: string, url: string}) => (
-            <IconButton
-                component={RouterLink}
-                // get id of the pokemon
-                to={`/:${pokemon.url.substring(pokemon.url.lastIndexOf('/', pokemon.url.lastIndexOf('/')-1) + 1, pokemon.url.lastIndexOf("/"))}`}
-                aria-label={`/${pokemon.name}`}
-                title="Hier deinen Ort bearbeiten"
-            >
-                {pokemon.name}
-            </IconButton>
+    <ListContainer>
+        <CardContainer>
+        {allPokemons?.map((pokemon: {name: string, picture: string}) => (
+            <Card name={pokemon.name} picture={pokemon.picture} />
         ))}
-    </>
+        </CardContainer>
+        <StyledPagination 
+            count={Math.ceil(numberOfPokemons/20)} 
+            // TODO: change any to Change Type
+            onChange={(e: any, value: number) => {
+                changePage(value)
+            }}
+        />
+    </ListContainer>
     )
 }
 
