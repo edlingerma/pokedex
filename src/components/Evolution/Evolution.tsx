@@ -1,6 +1,8 @@
 import React, { memo } from 'react'
 
 import Card from '../Card'
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
+import { EvolutionContainer } from './style'
 
 type evolutionProps = {
     evolutionArr: {
@@ -14,7 +16,7 @@ const Evolution = (props: evolutionProps) => {
     const evolutionArrLen = evolutionArr.length
 
     return (
-        <>
+        <EvolutionContainer>
         {evolutionArr.map((species, i) => {
             if (evolutionArrLen === i + 1) {
                 // last one
@@ -24,12 +26,12 @@ const Evolution = (props: evolutionProps) => {
                 return (
                     <>
                         <Card name={species.name} picture={species.picture} />
-                        -------
+                        <ArrowRightAltIcon style={{ height: '50px', width: '50px' }} />
                     </>
                 )
             }
         })}
-        </>
+        </EvolutionContainer>
     )
 }
 
