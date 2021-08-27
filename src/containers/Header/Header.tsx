@@ -2,8 +2,6 @@ import React, { memo } from 'react'
 import { HeaderDiv } from './style'
 import { Link } from '@material-ui/core'
 
-import { Link as RouterLink } from 'react-router-dom'
-
 const Header = () => {
   return (
     <HeaderDiv>

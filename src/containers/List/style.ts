@@ -1,7 +1,6 @@
 import { withTheme } from '@material-ui/core'
 import styled from 'styled-components'
 
-import { Card } from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
 
 export const ListContainer = withTheme(styled.div`

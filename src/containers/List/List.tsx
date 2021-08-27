@@ -1,5 +1,4 @@
 import React, { memo, useState, useEffect  } from 'react'
-import { Link as RouterLink } from 'react-router-dom'
 
 import { CardContainer, ListContainer, StyledPagination } from './style'
 
@@ -16,8 +15,6 @@ const List = () => {
         const fetchData = async () => {
             const { ok, pokemonData, count} = await fetchAllPokemon((page-1)*20)
             if(ok && pokemonData){
-                // const { results, count} = await fetchAllPokemon((page-1)*20)
-                // setAllPokemons(results)
                 setAllPokemons(pokemonData)
                 if(count) setNumberOfPokemons(count)
             }

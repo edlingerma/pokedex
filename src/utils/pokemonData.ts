@@ -5,46 +5,33 @@ export type pokemonType = {
     orderNumber: number,
     abilities: string[],
     stats: {number: number, name: string}[],
-    // evolution: string[],
     evolution: {name: string, picture: string}[], 
     moves: string[]
 }
 
-
 // get all pokemons
-// TODO - limit is 20 - so add params for lazyloading or pagination
 export const fetchAllPokemon = async (offset: number) => {
     const response = await window.fetch('https://pokeapi.co/api/v2/pokemon?limit=20&offset='+offset, {
       method: 'GET',
     })
     const data = await response.json()
     if (response.ok) {
-        console.log(data)
-        console.log(data.count)
         const pokemonData = await fetchPokemonData(data.results)
-        console.log(pokemonData)
         return { ok: response.ok, pokemonData: pokemonData, count: data.count}
-        // return data
     } else {
-        console.log('error')
         return { ok: response.ok}
     }
 }
 
+// get data for one pokemon by name
 export const fetchPokemon = async (name: string) => {
     const response = await window.fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, {
       method: 'GET',
     })
     const data = await response.json()
     if (response.ok) {
-        console.log(data)
         const evolutionOfPokemon = await getEvolutionChain(data.id)
-        console.log('new')
-        console.log(evolutionOfPokemon)
         const evolutionOfPokemonData = await fetchPokemonEvolutionData(evolutionOfPokemon)
-        console.log('morePics')
-        console.log(evolutionOfPokemonData)
-        // picture: data.sprites.other.official-artwork.front_default,
         const pokemon : pokemonType = {
             name: data.name,
             picture: data.sprites.other.dream_world.front_default !== null ? 
@@ -62,6 +49,7 @@ export const fetchPokemon = async (name: string) => {
     }
 }
 
+// get evolution chain
 const getEvolutionChain = async (id: number) => {
     const speciesResponse = await window.fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`, {
       method: 'GET',
@@ -74,7 +62,6 @@ const getEvolutionChain = async (id: number) => {
 
         if (response.ok) {
             const data = await response.json()
-            console.log(data)
             var evoChain = [];
             var evoData = data.chain;
 
@@ -90,6 +77,7 @@ const getEvolutionChain = async (id: number) => {
     else return []
 }
 
+// fetch additional Data (pictures) for List
 const fetchPokemonData = async (objArr: {name: string, url: string}[]) => {
     const arr = []
     for(let i=0; i<objArr.length; i++) {
@@ -99,6 +87,7 @@ const fetchPokemonData = async (objArr: {name: string, url: string}[]) => {
     return arr
 }
 
+// fetch additional Data (pictures) for Evolution
 const fetchPokemonEvolutionData = async (names: string[]) => {
     const arr = []
     for(let i=0; i<names.length; i++) {

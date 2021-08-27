@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 type accordionProps = {
     name: string,
-    content: ReactNode,       //React.ReactNode
+    content: ReactNode,
 }
 
 const DetailAccordion = (props: accordionProps) => {

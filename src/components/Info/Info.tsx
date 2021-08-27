@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 
-import { Chip, TableContainer, Table, TableRow, TableCell } from '@material-ui/core';
+import { Chip, Table, TableRow, TableCell } from '@material-ui/core';
 import { InfoDiv, StyledAvatar, StyledTableContainer } from './style'
 
 type basicInfoProps = {

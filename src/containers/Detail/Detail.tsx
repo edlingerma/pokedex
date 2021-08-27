@@ -4,7 +4,6 @@ import { fetchPokemon } from '../../utils/pokemonData'
 
 import Enumeration from '../../components/Enumeration'
 import Evolution from '../../components/Evolution'
-// import Info from '../../components/Info'
 import StatsTable from '../../components/StatsTable'
 import DetailAccordion from '../DetailAccordion'
 
@@ -17,9 +16,7 @@ type Props = {
 
 const Detail = (props: Props) => {
   const pokemonIDstring = props.match.params.id
-  console.log(props)
   const pokemonName : string = pokemonIDstring.substring(1);
-  
 
   const [pokemonInfo, setPokemonInfo] = useState({name: '', picture: '', types: [''], abilities: [''], evolution: [{name:'',picture:''}], orderNumber: 0, moves: [''], stats: [{number:0,name: ''}]})
   
@@ -27,9 +24,6 @@ const Detail = (props: Props) => {
     const fetchData = async () => {
         const pokemon = await fetchPokemon(pokemonName)
         if(pokemon) setPokemonInfo(pokemon)
-        console.log('-----------Info--------')
-        // console.log(pokemon)
-        console.log(pokemonInfo)
     }
     fetchData()
   }, [pokemonName])
