@@ -5,8 +5,8 @@ export type pokemonType = {
     orderNumber: number,
     abilities: string[],
     stats: {number: number, name: string}[],
-    evolution: string[],
-    // evolution: {name: string, picture: string}, 
+    // evolution: string[],
+    evolution: {name: string, picture: string}[], 
     moves: string[]
 }
 
@@ -53,7 +53,7 @@ export const fetchPokemon = async (name: string) => {
             orderNumber: data.order,
             abilities: data.abilities.map((ability: { ability: { name: string } }) => ability.ability.name),
             stats: data.stats.map((stat: { stat: { name: string }, base_stat: number }) => {return { number: stat.base_stat, name: stat.stat.name }} ),
-            evolution: evolutionOfPokemon,
+            evolution: evolutionOfPokemonData,
             moves: data.moves.map((move: { move: { name : string}}) => move.move.name)
         }
         return pokemon

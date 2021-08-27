@@ -21,7 +21,7 @@ const Detail = (props: Props) => {
   const pokemonName : string = pokemonIDstring.substring(1);
   
 
-  const [pokemonInfo, setPokemonInfo] = useState({name: '', picture: '', types: [''], abilities: [''], evolution: [''], orderNumber: 0, moves: [''], stats: [{number:0,name: ''}]})
+  const [pokemonInfo, setPokemonInfo] = useState({name: '', picture: '', types: [''], abilities: [''], evolution: [{name:'',picture:''}], orderNumber: 0, moves: [''], stats: [{number:0,name: ''}]})
   
   useEffect(() => {
     const fetchData = async () => {

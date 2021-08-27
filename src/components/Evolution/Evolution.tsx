@@ -1,9 +1,12 @@
 import React, { memo } from 'react'
 
-import PokemonEggLink from '../PokemonEggLink'
+import Card from '../Card'
 
 type evolutionProps = {
-    evolutionArr: string[],
+    evolutionArr: {
+        name: string,
+        picture: string,
+    }[]
 }
 
 const Evolution = (props: evolutionProps) => {
@@ -15,12 +18,13 @@ const Evolution = (props: evolutionProps) => {
         {evolutionArr.map((species, i) => {
             if (evolutionArrLen === i + 1) {
                 // last one
-                return (<PokemonEggLink name={species}/>)
+                return (<Card name={species.name} picture={species.picture} />)
             } else {
                 // not last one
                 return (
                     <>
-                        <PokemonEggLink name={species}/>-------
+                        <Card name={species.name} picture={species.picture} />
+                        -------
                     </>
                 )
             }
