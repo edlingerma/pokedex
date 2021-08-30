@@ -1,4 +1,7 @@
-import React, { memo, useState, useEffect  } from 'react'
+import React, { ChangeEvent, memo, useState, useEffect  } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { selectPage, selectCurrentPokemons } from '../../store/selectors'
+import { setPage, setCurrentPokemons } from '../../store/actions'
 
 import { CardContainer, ListContainer, StyledPagination } from './style'
 
@@ -6,24 +9,30 @@ import Card from '../../components/Card'
 import { fetchAllPokemon } from '../../utils/pokemonData'
 
 const List = () => {
-
-    const [allPokemons, setAllPokemons] = useState([{name: '', picture: ''}])
-    const [numberOfPokemons, setNumberOfPokemons] = useState(200)
-    const [page, setPage] = useState(1)
+    const dispatch = useDispatch()
+    const currentPage = useSelector(selectPage())
+    const currentPokemons = useSelector(selectCurrentPokemons())
+    const [pageNumber, setPageNumber] = useState(currentPage)
+    const [allPokemons, setAllPokemons] = useState(currentPokemons)
+    // const [allPokemons, setAllPokemons] = useState([{name: '', picture: ''}])
+    const [numberOfPokemons, setNumberOfPokemons] = useState(20)
 
     useEffect(() => {
         const fetchData = async () => {
-            const { ok, pokemonData, count} = await fetchAllPokemon((page-1)*20)
+            const { ok, pokemonData, count} = await fetchAllPokemon((pageNumber-1)*20)
             if(ok && pokemonData){
                 setAllPokemons(pokemonData)
+                dispatch(setCurrentPokemons({ currentPokemons: pokemonData }))
+                window.scrollTo(0, 0)
                 if(count) setNumberOfPokemons(count)
             }
         }
         fetchData()
-    }, [page])
+    }, [pageNumber])
 
     const changePage = (value: number) => {
-        setPage(value)
+        setPageNumber(value)
+        dispatch(setPage({ page: value }))
     }
 
     return (
@@ -35,10 +44,10 @@ const List = () => {
         </CardContainer>
         <StyledPagination 
             count={Math.ceil(numberOfPokemons/20)} 
-            // TODO: change any to Change Type
-            onChange={(e: any, value: number) => {
+            onChange={(e: ChangeEvent<HTMLButtonElement>, value: number) => {
                 changePage(value)
             }}
+            page={pageNumber} 
         />
     </ListContainer>
     )
