@@ -4,11 +4,12 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
 import List from '../List'
 import Detail from '../Detail'
+import ScrollToTop from '../../utils/scrollToTop'
 
-//   <Route exact path="/:id" component={Detail} />
 const Router = () => {
   return (
     <BrowserRouter>
+        <ScrollToTop />
         <Switch>
             <Route exact path="/" component={List} />
             <Route exact path="/:id" component={Detail} />
