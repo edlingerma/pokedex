@@ -25,33 +25,38 @@ export const fetchAllPokemon = async (offset: number) => {
 
 // get data for one pokemon by name
 export const fetchPokemon = async (name: string) => {
-    const response = await window.fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, {
-      method: 'GET',
-    })
-    const data = await response.json()
-    if (response.ok) {
-        const evolutionOfPokemon = await getEvolutionChain(data.id)
-        const evolutionOfPokemonData = await fetchPokemonEvolutionData(evolutionOfPokemon)
-        const pokemon : pokemonType = {
-            name: data.name,
-            picture: data.sprites.other.dream_world.front_default !== null ? 
-                data.sprites.other.dream_world.front_default : data.sprites.front_default,
-            types: data.types.map((type: { type: { name: string } }) => type.type.name),
-            orderNumber: data.order,
-            abilities: data.abilities.map((ability: { ability: { name: string } }) => ability.ability.name),
-            stats: data.stats.map((stat: { stat: { name: string }, base_stat: number }) => {return { number: stat.base_stat, name: stat.stat.name }} ),
-            evolution: evolutionOfPokemonData,
-            moves: data.moves.map((move: { move: { name : string}}) => move.move.name)
+    try { 
+        const response = await window.fetch(`https://pokeapi.co/api/v2/pokemon/${name}`, {
+            method: 'GET',
+        })
+        const data = await response.json()
+
+        if (response.ok) {
+            const evolutionOfPokemon = await getEvolutionChain(data.species.url)
+            const evolutionOfPokemonData = await fetchPokemonEvolutionData(evolutionOfPokemon)
+            const pokemon : pokemonType = {
+                name: data.name,
+                picture: data.sprites.other.dream_world.front_default !== null ? 
+                    data.sprites.other.dream_world.front_default : data.sprites.front_default,
+                types: data.types.map((type: { type: { name: string } }) => type.type.name),
+                orderNumber: data.order,
+                abilities: data.abilities.map((ability: { ability: { name: string } }) => ability.ability.name),
+                stats: data.stats.map((stat: { stat: { name: string }, base_stat: number }) => {return { number: stat.base_stat, name: stat.stat.name }} ),
+                evolution: evolutionOfPokemonData,
+                moves: data.moves.map((move: { move: { name : string}}) => move.move.name)
+            }
+            return pokemon
+        } else {
+            return 'Ups! Something went wrong :('
         }
-        return pokemon
-    } else {
-        console.log('error')
+    } catch (err) {
+        return 'Ups! Something went wrong :('
     }
 }
 
 // get evolution chain
-const getEvolutionChain = async (id: number) => {
-    const speciesResponse = await window.fetch(`https://pokeapi.co/api/v2/pokemon-species/${id}`, {
+const getEvolutionChain = async (speciesUrl: string) => {
+    const speciesResponse = await window.fetch(speciesUrl, {
       method: 'GET',
     })
     if (speciesResponse.ok) {
