@@ -28,7 +28,7 @@ const List = () => {
             }
         }
         fetchData()
-    }, [pageNumber])
+    }, [dispatch, pageNumber])
 
     const changePage = (value: number) => {
         setPageNumber(value)
