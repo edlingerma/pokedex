@@ -5,7 +5,7 @@ import { Link } from '@material-ui/core'
 const Header = () => {
   return (
     <HeaderDiv>
-      <Link href="/" color="secondary"><h1>Pokedex</h1></Link>
+      <Link href="/" color="secondary" underline="none"><h1>Pokédex</h1></Link>
     </HeaderDiv>
   )
 }
