@@ -13,3 +13,8 @@ export const selectCurrentPokemons = () =>
   createSelector(selectPokedex, (pokedex: PokedexState) => {
     return pokedex.currentPokemons
   })
+
+export const selectPokemonsNumber = () =>
+  createSelector(selectPokedex, (pokedex: PokedexState) => {
+    return pokedex.pokemonsNumber
+  })

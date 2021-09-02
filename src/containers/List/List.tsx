@@ -1,7 +1,7 @@
 import React, { ChangeEvent, memo, useState, useEffect  } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectPage, selectCurrentPokemons } from '../../store/selectors'
-import { setPage, setCurrentPokemons } from '../../store/actions'
+import { selectPage, selectCurrentPokemons, selectPokemonsNumber } from '../../store/selectors'
+import { setPage, setCurrentPokemons, setPokemonsNumber } from '../../store/actions'
 
 import { CardContainer, ListContainer, StyledPagination } from './style'
 
@@ -12,27 +12,32 @@ const List = () => {
     const dispatch = useDispatch()
     const currentPage = useSelector(selectPage())
     const currentPokemons = useSelector(selectCurrentPokemons())
+    const numberOfAllPokemons = useSelector(selectPokemonsNumber())
     const [pageNumber, setPageNumber] = useState(currentPage)
     const [allPokemons, setAllPokemons] = useState(currentPokemons)
-    // const [allPokemons, setAllPokemons] = useState([{name: '', picture: ''}])
-    const [numberOfPokemons, setNumberOfPokemons] = useState(20)
+    const [numberOfPokemons, setNumberOfPokemons] = useState(numberOfAllPokemons)
 
     useEffect(() => {
         const fetchData = async () => {
-            const { ok, pokemonData, count} = await fetchAllPokemon((pageNumber-1)*20)
-            if(ok && pokemonData){
-                setAllPokemons(pokemonData)
-                dispatch(setCurrentPokemons({ currentPokemons: pokemonData }))
-                window.scrollTo(0, 0)
-                if(count) setNumberOfPokemons(count)
+            if(pageNumber !== currentPage || currentPokemons.length === 0){
+                dispatch(setPage({ page: pageNumber }))
+                const { ok, pokemonData, count} = await fetchAllPokemon((pageNumber-1)*20)
+                if(ok && pokemonData){
+                    setAllPokemons(pokemonData)
+                    dispatch(setCurrentPokemons({ currentPokemons: pokemonData }))
+                    window.scrollTo(0, 0)
+                    if(count) {
+                        setNumberOfPokemons(count)
+                        dispatch(setPokemonsNumber({ pokemonsNumber: count }))
+                    }
+                }
             }
         }
         fetchData()
-    }, [dispatch, pageNumber])
+    }, [dispatch, currentPage, pageNumber, currentPokemons.length])
 
     const changePage = (value: number) => {
         setPageNumber(value)
-        dispatch(setPage({ page: value }))
     }
 
     return (
@@ -47,7 +52,7 @@ const List = () => {
             onChange={(e: ChangeEvent<HTMLButtonElement>, value: number) => {
                 changePage(value)
             }}
-            page={pageNumber} 
+            page={currentPage} 
         />
     </ListContainer>
     )
