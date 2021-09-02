@@ -27,7 +27,7 @@ const Evolution = (props: evolutionProps) => {
     return (
         <EvoDivWithSpecialCase>
             <EvolutionContainer>
-                {evolutionArr.map((species, i) => {
+                {evolutionArr.map((species: {name: string, picture: string}, i: number) => {
                     if (evolutionArrLen === i + 1) {
                         // last one
                         return (<Card name={species.name} picture={species.picture} />)

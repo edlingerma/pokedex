@@ -5,7 +5,7 @@ const Enumeration = (props: {enumerables: string[]}) => {
     const enumerablesLen = enumerables.length
     return (
         <>
-            {enumerables.map((enumerable, i) => {
+            {enumerables.map((enumerable : string, i : number) => {
                 if (enumerablesLen === i + 1) {
                     // last one
                     return enumerable
