@@ -1,45 +1,64 @@
 import React, { memo } from 'react'
 
 import Card from '../Card'
-import { useTheme, useMediaQuery } from '@material-ui/core'
+import { Box, useTheme, useMediaQuery } from '@material-ui/core'
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { EvolutionContainer } from './style'
+import { EvolutionContainer, EvoDivWithSpecialCase, EvoSpecialCaseList } from './style'
 
 type evolutionProps = {
     evolutionArr: {
         name: string,
         picture: string,
     }[]
+    specialEvolutionArr?: {
+        name: string,
+        picture: string,
+    }[]
 }
 
 const Evolution = (props: evolutionProps) => {
-    const {evolutionArr} = props
+    const {evolutionArr, specialEvolutionArr} = props
     const evolutionArrLen = evolutionArr.length
 
     const theme = useTheme()
     const isLaptop = useMediaQuery(theme.breakpoints.between('md', 'xl'))
 
     return (
-        <EvolutionContainer>
-        {evolutionArr.map((species, i) => {
-            if (evolutionArrLen === i + 1) {
-                // last one
-                return (<Card name={species.name} picture={species.picture} />)
-            } else {
-                // not last one
-                return (
-                    <>
-                        <Card name={species.name} picture={species.picture} />
-                        {isLaptop ? 
-                            <ArrowRightAltIcon style={{ height: '50px', width: '50px' }} /> :
-                            <ArrowDownwardIcon style={{ height: '50px', width: '50px' }} />
-                        }
-                    </>
-                )
-            }
-        })}
-        </EvolutionContainer>
+        <EvoDivWithSpecialCase>
+            <EvolutionContainer>
+                {evolutionArr.map((species, i) => {
+                    if (evolutionArrLen === i + 1) {
+                        // last one
+                        return (<Card name={species.name} picture={species.picture} />)
+                    } else {
+                        // not last one
+                        return (
+                            <>
+                                <Card name={species.name} picture={species.picture} />
+                                {isLaptop ? 
+                                    <ArrowRightAltIcon style={{ height: '50px', width: '50px' }} /> :
+                                    <ArrowDownwardIcon style={{ height: '50px', width: '50px' }} />
+                                }
+                            </>
+                        )
+                    }
+                })}
+            </EvolutionContainer>
+
+            <EvoDivWithSpecialCase>
+                <Box fontWeight="fontWeightBold">
+                    {specialEvolutionArr ? 
+                        `This evolution is special. There are several ways in which the Pokemon can evolve:` : ''}
+                </Box>
+                <EvoSpecialCaseList>
+                  { specialEvolutionArr?.map((species) => {
+                        return (<Card name={species.name} picture={species.picture} />)
+                    })}
+                </EvoSpecialCaseList>
+            </EvoDivWithSpecialCase>
+
+        </EvoDivWithSpecialCase>
     )
 }
 

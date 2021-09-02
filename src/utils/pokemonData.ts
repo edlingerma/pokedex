@@ -6,6 +6,7 @@ export type pokemonType = {
     abilities: string[],
     stats: {number: number, name: string}[],
     evolution: {name: string, picture: string}[], 
+    specialEvolution?: {name: string, picture: string}[],
     moves: string[]
 }
 
@@ -32,8 +33,10 @@ export const fetchPokemon = async (name: string) => {
         const data = await response.json()
 
         if (response.ok) {
-            const evolutionOfPokemon = await getEvolutionChain(data.species.url)
-            const evolutionOfPokemonData = await fetchPokemonEvolutionData(evolutionOfPokemon)
+            const [evoOfPokemonData, specialEvoOfPokemonData ]  = await getEvolutionChain(data.species.url, name)
+            // const evolutionOfPokemon = await getEvolutionChain(data.species.url)
+            const evolutionOfPokemonData = await fetchPokemonEvolutionData(evoOfPokemonData)
+            const specialEvolutionOfPokemonData = (specialEvoOfPokemonData.length>0) ? await fetchPokemonEvolutionData(specialEvoOfPokemonData) : undefined
             const pokemon : pokemonType = {
                 name: data.name,
                 picture: data.sprites.other.dream_world.front_default !== null ? 
@@ -43,6 +46,7 @@ export const fetchPokemon = async (name: string) => {
                 abilities: data.abilities.map((ability: { ability: { name: string } }) => ability.ability.name),
                 stats: data.stats.map((stat: { stat: { name: string }, base_stat: number }) => {return { number: stat.base_stat, name: stat.stat.name }} ),
                 evolution: evolutionOfPokemonData,
+                specialEvolution: specialEvolutionOfPokemonData,
                 moves: data.moves.map((move: { move: { name : string}}) => move.move.name)
             }
             return pokemon
@@ -55,7 +59,7 @@ export const fetchPokemon = async (name: string) => {
 }
 
 // get evolution chain
-const getEvolutionChain = async (speciesUrl: string) => {
+const getEvolutionChain = async (speciesUrl: string, name: string) => {
     const speciesResponse = await window.fetch(speciesUrl, {
       method: 'GET',
     })
@@ -67,15 +71,28 @@ const getEvolutionChain = async (speciesUrl: string) => {
 
         if (response.ok) {
             const data = await response.json()
-            var evoChain = [];
-            var evoData = data.chain;
+            let evoChain : string[] = [];
+            let evoData = data.chain;
+            let specialEvoChain : string[] = []
+            let nextEvoIndex : number = 0
 
             do {
                 evoChain.push(evoData.species.name);
-                evoData = evoData['evolves_to'][0];
+                // if and loop for special case: Pokemon eevee
+                if(evoData['evolves_to'].length > 1){
+                    // evoData['evolves_to'].map(( evoPokemon: { species: { name: string } }, i: number ) => {
+                    //     specialEvoChain.push(evoPokemon.species.name)
+                    // })
+                    for(let i=0; i<evoData['evolves_to'].length; i++){
+                        if( name===evoData['evolves_to'][i].species.name){
+                            nextEvoIndex = i
+                         } else 
+                        specialEvoChain.push(evoData['evolves_to'][i].species.name)
+                    }
+                } 
+                evoData = evoData['evolves_to'][nextEvoIndex];
             } while (!!evoData && evoData.hasOwnProperty('evolves_to'));
-
-            return evoChain
+            return [evoChain, specialEvoChain]
         }
         else return []
     }

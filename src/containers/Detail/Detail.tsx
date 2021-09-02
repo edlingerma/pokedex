@@ -1,6 +1,6 @@
 import React, { memo, Suspense, lazy, useEffect, useState } from 'react'
 
-import { fetchPokemon } from '../../utils/pokemonData'
+import { fetchPokemon, pokemonType } from '../../utils/pokemonData'
 
 import { Alert } from '@material-ui/lab'
 import Enumeration from '../../components/Enumeration'
@@ -19,7 +19,7 @@ const Detail = (props: Props) => {
   const pokemonIDstring = props.match.params.id
   const pokemonName : string = pokemonIDstring.substring(1);
 
-  const [pokemonInfo, setPokemonInfo] = useState({name: '', picture: '', types: [''], abilities: [''], evolution: [{name:'',picture:''}], orderNumber: 0, moves: [''], stats: [{number:0,name: ''}]})
+  const [pokemonInfo, setPokemonInfo] = useState<pokemonType>({name: '', picture: '', types: [''], abilities: [''], evolution: [{name:'',picture:''}], orderNumber: 0, moves: [''], stats: [{number:0,name: ''}]})
   const [error, setError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('Ohoh')
 
@@ -78,6 +78,7 @@ const Detail = (props: Props) => {
               content={
                 <Evolution
                   evolutionArr={pokemonInfo.evolution}
+                  specialEvolutionArr={pokemonInfo?.specialEvolution}
               />}
             />
           ) : ''

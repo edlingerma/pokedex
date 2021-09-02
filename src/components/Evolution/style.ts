@@ -11,3 +11,17 @@ export const EvolutionContainer = withTheme(styled.div`
         flex-direction: column;
     }
 `)
+
+export const EvoDivWithSpecialCase = withTheme(styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+`)
+
+export const EvoSpecialCaseList = withTheme(styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+`)
