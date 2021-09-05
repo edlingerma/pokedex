@@ -42,7 +42,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 ### `yarn run cypress`
 
-Runs test in Browser to check if the website also works well with the API data.
+End-to-end testing: runs test in Browser
 
 ### `yarn build`
 
