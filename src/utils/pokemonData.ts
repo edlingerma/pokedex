@@ -121,7 +121,7 @@ const getEvolutionChain = async (speciesUrl: string, name: string) => {
 }
 
 // fetch additional Data (pictures) for List
-const fetchPokemonData = async (objArr: { name: string; url: string }[]) => {
+export const fetchPokemonData = async (objArr: { name: string; url: string }[]) => {
 	const arr = []
 	for (let i = 0; i < objArr.length; i++) {
 		const entry = await getPicture(objArr[i].name)
