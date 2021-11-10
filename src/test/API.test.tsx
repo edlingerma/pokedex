@@ -1,30 +1,4 @@
-import { render, screen } from '@testing-library/react'
-import App from './App'
-import { Provider } from 'react-redux'
-import { store } from './store/index'
-import { fetchPokemon, fetchPokemonData, fetchAllPokemon, pokemonType } from './utils/pokemonData'
-
-window.scrollTo = jest.fn() // fixes Error: Not implemented: window.scrollTo
-
-test('renders title', () => {
-	render(
-		<Provider store={store}>
-			<App />
-		</Provider>
-	)
-	const title = screen.getByText('Pokédex')
-	expect(title).toBeInTheDocument()
-})
-
-test('renders name in footer', () => {
-	render(
-		<Provider store={store}>
-			<App />
-		</Provider>
-	)
-	const name = screen.getByText('Maria Edlinger')
-	expect(name).toBeInTheDocument()
-})
+import { fetchAllPokemon, fetchPokemon, fetchPokemonData } from '../utils/pokemonData'
 
 test('get a object with pokemon info of bulbasaur', async () => {
 	const pokemonInfo = await fetchPokemon('bulbasaur')
@@ -69,7 +43,9 @@ test('check special evolution of eevee', async () => {
 		expect(evo[0].name).toBe('eevee');
 		expect(evo[1].name).toBe('vaporeon');
 
-		const specialEvo  = pokemonInfo.specialEvolution
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-ignore
+		const specialEvo  = pokemonInfo?.specialEvolution;
 		if(specialEvo) {
 			expect(specialEvo[0].name).toBe('vaporeon');
 			expect(specialEvo[1].name).toBe('jolteon');
@@ -104,4 +80,3 @@ test('check response of first 20 pokemons', async function () {
 	expect(firstName).toBe('bulbasaur');
 	expect(secondName).toBe('ivysaur');
 }, 30000)
-

@@ -1,3 +1,5 @@
+import { mockPokemon } from '../test/mockdata'
+
 export type pokemonType = {
 	name: string
 	picture: string
@@ -28,8 +30,13 @@ export const fetchAllPokemon = async (offset: number) => {
 }
 
 // get data for one pokemon by name
-export const fetchPokemon = async (name: string) => {
+export const fetchPokemon = async (name: string, test?: boolean) => {
 	try {
+		//for testing
+		if(test){
+			return mockPokemon
+		}
+
 		const response = await window.fetch(
 			`https://pokeapi.co/api/v2/pokemon/${name}`,
 			{

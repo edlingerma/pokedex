@@ -20,7 +20,7 @@ const Card = (props: CardProps) => {
 
 	return (
 		<StyledCard>
-			<CardActionArea component={RouterLink} to={`/:${name}`}>
+			<CardActionArea component={RouterLink} to={`/${name}`}>
 				<CardMedia
 					className={classes.media}
 					image={picture}
