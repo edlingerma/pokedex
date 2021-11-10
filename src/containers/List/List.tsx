@@ -58,7 +58,7 @@ const List = () => {
 			<CardContainer>
 				{allPokemons?.map(
 					(pokemon: { name: string; picture: string }) => (
-						<Card name={pokemon.name} picture={pokemon.picture} />
+						<Card key={pokemon.name} name={pokemon.name} picture={pokemon.picture} />
 					)
 				)}
 			</CardContainer>

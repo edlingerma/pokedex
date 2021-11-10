@@ -12,11 +12,11 @@ const Info = lazy(() => import('../../components/Info'))
 
 type Props = {
 	match: Record<string, any>
+	test?: boolean
 }
 
 const Detail = (props: Props) => {
-	const pokemonIDstring = props.match.params.id
-	const pokemonName: string = pokemonIDstring.substring(1)
+	const pokemonName = props.match.params.id
 
 	const [pokemonInfo, setPokemonInfo] = useState<pokemonType>({
 		name: '',
@@ -33,7 +33,7 @@ const Detail = (props: Props) => {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const pokemon = await fetchPokemon(pokemonName)
+			const pokemon = await fetchPokemon(pokemonName, props.test)
 			if (typeof pokemon === 'string') {
 				// error happend
 				setError(true)

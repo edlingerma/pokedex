@@ -34,7 +34,7 @@ const Info = (props: basicInfoProps) => {
 						<TableCell>Type(s):</TableCell>
 						<TableCell>
 							{types.map((type: string) => {
-								return <Chip label={type} variant='outlined' />
+								return <Chip key={type} label={type} variant='outlined' />
 							})}
 						</TableCell>
 					</TableRow>

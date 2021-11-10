@@ -37,6 +37,7 @@ const Evolution = (props: evolutionProps) => {
 							// last one
 							return (
 								<Card
+									key={species.name}
 									name={species.name}
 									picture={species.picture}
 								/>
@@ -46,6 +47,7 @@ const Evolution = (props: evolutionProps) => {
 							return (
 								<>
 									<Card
+										key={species.name}
 										name={species.name}
 										picture={species.picture}
 									/>
@@ -82,6 +84,7 @@ const Evolution = (props: evolutionProps) => {
 						(species: { name: string; picture: string }) => {
 							return (
 								<Card
+									key={species.name}
 									name={species.name}
 									picture={species.picture}
 								/>
