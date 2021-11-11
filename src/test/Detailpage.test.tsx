@@ -186,6 +186,3 @@ test('render evolution with mockdata', async () => {
 	expect(allEvaluationNames[1].innerHTML === 'ivysaur').toBeTruthy()
 	expect(allEvaluationNames[2].innerHTML === 'venusar').toBeTruthy()
 })
-
-// may be useful sometime too
-// const rowDefense = detailPage.getByText('defense').closest('tr')
