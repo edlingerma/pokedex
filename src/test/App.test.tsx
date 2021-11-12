@@ -38,9 +38,11 @@ test('render card with mockdata', async () => {
 	expect(name).toBeInTheDocument()
 
 	// check if image is there
-	const image = card.getByTitle(/picture of bulbasaur/);
-	const backgroundImageURL = 'url(https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg)'
+	const image = card.getByAltText(/picture of bulbasaur/);
+	const imageURL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg'
 	expect(image).toBeInTheDocument()
-	const styleImgURL = image.style.backgroundImage
-	expect(styleImgURL===backgroundImageURL).toBeTruthy()
+	const imageSrc = image.getAttribute('src')
+	expect(imageSrc).toContain(imageURL);
+	// or
+	expect(image).toHaveAttribute('src', imageURL)
 })
