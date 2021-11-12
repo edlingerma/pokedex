@@ -45,7 +45,7 @@ const Evolution = (props: evolutionProps) => {
 						} else {
 							// not last one
 							return (
-								<>
+								<div key={species.name+'-box'}>
 									<Card
 										key={species.name}
 										name={species.name}
@@ -66,7 +66,7 @@ const Evolution = (props: evolutionProps) => {
 											}}
 										/>
 									)}
-								</>
+								</div>
 							)
 						}
 					}

@@ -22,6 +22,7 @@ const Info = (props: basicInfoProps) => {
 			/>
 			<StyledTableContainer>
 				<Table aria-label='basic information table'>
+					<tbody>
 					<TableRow>
 						<TableCell>Name:</TableCell>
 						<TableCell>{name}</TableCell>
@@ -38,6 +39,7 @@ const Info = (props: basicInfoProps) => {
 							})}
 						</TableCell>
 					</TableRow>
+					</tbody>
 				</Table>
 			</StyledTableContainer>
 		</InfoDiv>

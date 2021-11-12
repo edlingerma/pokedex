@@ -22,9 +22,11 @@ const Card = (props: CardProps) => {
 		<StyledCard>
 			<CardActionArea component={RouterLink} to={`/${name}`}>
 				<CardMedia
+					component="img"
 					className={classes.media}
 					image={picture}
 					title={`picture of ${name}`}
+					alt={`picture of ${name}`}
 				/>
 				<CardContent>
 					<Typography gutterBottom variant='h5' component='h2'>

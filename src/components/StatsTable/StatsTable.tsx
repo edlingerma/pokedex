@@ -11,6 +11,7 @@ const StatsTable = (props: statsProps) => {
 	return (
 		<TableContainer>
 			<Table aria-label='customized table'>
+				<tbody>
 				{statsObjArr.map(
 					(statObj: { name: string; number: number }) => {
 						return (
@@ -21,6 +22,7 @@ const StatsTable = (props: statsProps) => {
 						)
 					}
 				)}
+				</tbody>
 			</Table>
 		</TableContainer>
 	)
