@@ -182,6 +182,8 @@ test('render evolution with mockdata', async () => {
 
 	// check if the evolution order is correct
 	const allEvaluationNames =  document.querySelectorAll("h2")
+	// other possible query to get all h2 headings:
+	evolutionContainer.getAllByRole('heading', { level: 2 })
 	expect(allEvaluationNames[0].innerHTML === 'bulbasaur').toBeTruthy()
 	expect(allEvaluationNames[1].innerHTML === 'ivysaur').toBeTruthy()
 	expect(allEvaluationNames[2].innerHTML === 'venusar').toBeTruthy()
